@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CreditsHub</title>
+</head>
+<body>
+  <h1>Welcome to CreditsHub</h1>
+  <div id="user-status">Checking session...</div>
+
+  <script>
+    const sessionKey = "creditsHubSession";
+
+    function loadSession() {
+      const session = localStorage.getItem(sessionKey);
+      return session ? JSON.parse(session) : null;
+    }
+
+    function saveSession(userId, authToken) {
+      const session = { userId, authToken, isLoggedIn: true };
+      localStorage.setItem(sessionKey, JSON.stringify(session));
+    }
+
+    function login(userId, authToken) {
+      saveSession(userId, authToken);
+      document.getElementById("user-status").textContent = `Logged in as ${userId}`;
+    }
+
+    const session = loadSession();
+    if (session && session.isLoggedIn) {
+      document.getElementById("user-status").textContent = `Welcome back, ${session.userId}`;
+    } else {
+      login("user123", "token_abc123");
+    }
+  </script>
+</body>
+</html>
